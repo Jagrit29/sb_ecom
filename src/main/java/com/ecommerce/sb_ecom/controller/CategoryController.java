@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
     private CategoryService categoryService;
 
@@ -21,20 +22,22 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/api/public/categories")
+//    @GetMapping("/api/public/categories")
+    @RequestMapping(value = "/public/categories", method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
 
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @PostMapping("/api/admin/categories")
+//    @PostMapping("/api/admin/categories")
+    @RequestMapping(value = "/admin/categories", method = RequestMethod.POST)
     public ResponseEntity<String> createCategory(@RequestBody Category category) {
         categoryService.createCategory(category);
         return new ResponseEntity<>("Category Added Successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/admin/categories/{categoryId}")
+    @RequestMapping(value = "/admin/categories/{categoryId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
         // Controller layer will try and catch the exception and transform the output using ResponseEntity
         try {
@@ -45,7 +48,8 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("/api/admin/categories/{categoryId}")
+//    @PutMapping("/api/admin/categories/{categoryId}")
+    @RequestMapping(value = "/admin/categories/{categoryId}", method = RequestMethod.PUT)
     public ResponseEntity<String> updateCategory(@RequestBody Category category, @PathVariable Long categoryId) {
         try {
             Category updatedCategory = categoryService.updateCategory(categoryId, category);
